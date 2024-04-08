@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Construindo uma Calculadora com HTML, CSS e JavaScript</h1>
+    <h2>Introdução</h2>
+    <p>
+      Neste projeto prático, vamos construir uma calculadora completa utilizando
+      HTML, CSS e JavaScript. Serão aplicados todos os conceitos aprendidos até
+      agora sobre manipulação do DOM e interatividade com o usuário.
+    </p>
+    <p>
+      O objetivo é criar uma página web com uma calculadora funcional contendo
+      todas as operações básicas: soma, subtração, multiplicação, divisão,
+      porcentagem e limpar. O usuário poderá interagir digitando nos botões ou
+      no teclado.
+    </p>
+    <p>
+      Vamos começar criando a estrutura HTML e o layout com CSS. Depois,
+      implementaremos todas as funcionalidades com JavaScript:
+    </p>
+    <ul>
+      <li>Permitir digitar apenas números e operadores válidos</li>
+      <li>Capturar cliques nos botões para inserir caracteres</li>
+      <li>Limpar o visor ao clicar no botão C</li>
+      <li>Calcular o resultado ao clicar no botão =</li>
+      <li>Exibir o resultado em outro campo</li>
+    </ul>
+    <p>
+      Ao final, teremos uma calculadora totalmente funcional e interativa! Vamos
+      começar!
+    </p>
+    <h2>Estrutura HTML e Estilos CSS</h2>
+    <p>
+      O primeiro passo é criar o arquivo HTML com a estrutura básica da página:
+    </p>
+    <pre><code class="language-html">&lt;!DOCTYPE html&gt;&lt;html lang=&quot;pt-br&quot;&gt;&lt;head&gt;  &lt;meta charset=&quot;UTF-8&quot;&gt;  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;  &lt;title&gt;Calculadora&lt;/title&gt;  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;  &lt;script src=&quot;script.js&quot; defer&gt;&lt;/script&gt;&lt;/head&gt;&lt;body&gt;  &lt;main&gt;    &lt;!-- Conteúdo aqui --&gt;  &lt;/main&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    <p>
+      Em seguida, adicionamos os elementos visuais da calculadora dentro da tag
+      <code>&lt;main&gt;</code>:
+    </p>
+    <pre><code class="language-html">&lt;main class=&quot;calculator&quot; data-theme=&quot;dark&quot;&gt;  &lt;div class=&quot;calculator__buttons&quot;&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;(&quot;&gt;(&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;)&quot;&gt;)&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;%&quot;&gt;%&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;/&quot;&gt;/&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;7&quot;&gt;7&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;8&quot;&gt;8&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;9&quot;&gt;9&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;*&quot;&gt;*&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;4&quot;&gt;4&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;5&quot;&gt;5&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;6&quot;&gt;6&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;-&quot;&gt;-&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;1&quot;&gt;1&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;2&quot;&gt;2&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;3&quot;&gt;3&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;+&quot;&gt;+&lt;/button&gt;    &lt;button class=&quot;char-key&quot; id=&quot;clear&quot;&gt;C&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;0&quot;&gt;0&lt;/button&gt;    &lt;button class=&quot;char-key&quot; data-value=&quot;.&quot;&gt;.&lt;/button&gt;    &lt;button class=&quot;char-key&quot; id=&quot;equal&quot;&gt;=&lt;/button&gt;  &lt;/div&gt;  &lt;section class=&quot;calculator__display&quot;&gt;    &lt;input type=&quot;text&quot; id=&quot;result&quot; disabled&gt;    &lt;button id=&quot;copy&quot;&gt;Copy&lt;/button&gt;   &lt;/section&gt;&lt;/main&gt;</code></pre>
+    <p>
+      Perceba que cada botão numérico e de operação possui a classe
+      <code>char-key</code> e o atributo <code>data-value</code> com o valor que
+      será inserido.
+    </p>
+    <p>
+      O botão de igual <code>=</code> e limpar <code>C</code> possuem IDs
+      específicos para serem manipulados depois.
+    </p>
+    <p>
+      Também há um input de texto desabilitado para exibir o resultado e um
+      botão para copiar o valor.
+    </p>
+    <p>
+      Em seguida, criamos o arquivo CSS <code>styles.css</code> e adicionamos
+      estilos para organizar visualmente os elementos:
+    </p>
+    <pre><code class="language-css">.calculator {  display: grid;  grid-template-columns: repeat(4, 75px);  grid-template-rows: 160px auto;  background-color: #000;  border-radius: 10px;  padding: 15px;}/* Estilos para botões e visor */.char-key:hover {  background-color: #555;} /* Demais estilos visuais */</code></pre>
+    <p>
+      Agora nossa calculadora já está estruturada visualmente! Vamos para a
+      implementação com JavaScript.
+    </p>
+    <h2>Funcionalidades com JavaScript</h2>
+    <p>Começamos importando os elementos que vamos manipular:</p>
+    <pre><code class="language-js">const main = document.querySelector('main');const root = document.querySelector(':root'); const input = document.getElementById('input');const resultInput = document.getElementById('result');</code></pre>
+    <h3>1. Permitir apenas dígitos válidos</h3>
+    <p>
+      A primeira funcionalidade é garantir que o usuário digite apenas números e
+      operadores válidos. Para isso, criamos um array com os caracteres
+      permitidos:
+    </p>
+    <pre><code class="language-js">const allowedKeys = ['(', ')', '%', '/', 7, 8, 9, '*', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', ','];</code></pre>
+    <p>
+      Em seguida, adicionamos um event listener no input para capturar as teclas
+      digitadas:
+    </p>
+    <pre><code class="language-js">input.addEventListener('keydown', e =&gt; {  // Lógica para verificar se é caractere válido});</code></pre>
+    <p>
+      Dentro do listener, verificamos se a tecla está nos caracteres válidos. Se
+      sim, concatenamos no value do input:
+    </p>
+    <pre><code class="language-js">if(allowedKeys.includes(e.key)) {  input.value += e.key;   return;}</code></pre>
+    <p>Também tratamos o caso do backspace, para permitir apagar dígitos:</p>
+    <pre><code class="language-js">if(e.key === 'Backspace') {  input.value = input.value.slice(0, -1);}</code></pre>
+    <h3>2. Inserir valores ao clicar nos botões</h3>
+    <p>
+      Agora vamos fazer os botões funcionarem. Começamos selecionando todos com
+      a classe <code>char-key</code>:
+    </p>
+    <pre><code class="language-js">document.querySelectorAll('.char-key').forEach(charKey =&gt; {  // Código aqui});</code></pre>
+    <p>E adicionamos um listener de clique em cada um:</p>
+    <pre><code class="language-js">charKey.addEventListener('click', () =&gt; {    let value = charKey.dataset.value;  input.value += value;});</code></pre>
+    <p>
+      Dentro do listener, pegamos o atributo <code>data-value</code> do botão e
+      concatenamos no input.
+    </p>
+    <h3>3. Limpar visor com botão C</h3>
+    <p>Para o botão C, selecionamos pelo ID e adicionamos outro listener:</p>
+    <pre><code class="language-js">document.getElementById('clear').addEventListener('click', () =&gt; {  input.value = '';  input.focus();});</code></pre>
+    <p>
+      Ao clicar, limpamos o value do input e colocamos o foco nele novamente.
+    </p>
+    <h3>4. Calcular resultado com botão =</h3>
+    <p>
+      Por fim, vamos implementar o cálculo quando clicar no botão &quot;=&quot;:
+    </p>
+    <pre><code class="language-js">function calculate() {  let result = eval(input.value);  resultInput.value = result;}document.getElementById('equal').addEventListener('click', calculate);</code></pre>
+    <p>
+      Usamos a função <code>eval()</code> do JavaScript para avaliar o valor
+      como código e calcular o resultado. Em seguida, inserimos no input de
+      resultado.
+    </p>
+    <h2>Funcionalidades Extras</h2>
+    <p>Algumas funcionalidades extras que podem ser adicionadas:</p>
+    <ul>
+      <li>Trocar tema dark/light da calculadora</li>
+      <li>Botão para copiar o resultado</li>
+      <li>Não permitir mais de um ponto decimal</li>
+      <li>Botão para deletar o último dígito</li>
+      <li>Animações visuais nos botões</li>
+    </ul>
+    <h2>Considerações Finais</h2>
+    <p>
+      E isso é tudo! Construímos uma calculadora totalmente funcional utilizando
+      apenas HTML, CSS e JavaScript.
+    </p>
+    <p>
+      Vimos conceitos muito importantes como manipulação do DOM, templates
+      strings, event listeners e a função eval(). Também aprendemos boas
+      práticas como separar o código em funções reutilizáveis.
+    </p>
+    <p>
+      A partir deste projeto você pode evoluir e desenvolver aplicações web mais
+      complexas e interativas. O céu é o limite!
+    </p>
+    <p>
+      Espero que você tenha gostado do passo a passo. Qualquer dúvida ou
+      sugestão, compartilhe nos comentários.
+    </p>
+    <p>Mãos na massa e boa programação!</p>
+  </body>
+</html>
